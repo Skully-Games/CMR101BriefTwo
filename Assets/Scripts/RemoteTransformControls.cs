@@ -40,30 +40,12 @@ public class RemoteTransformControls : MonoBehaviour
 
     public TextMeshProUGUI targetUI;
 
-    //public TextMeshProUGUI debugUI;
-    //public TextMeshProUGUI moveUI;
-    //public TextMeshProUGUI rotateUI;
-    //public TextMeshProUGUI scaleUI;
-    //public TextMeshProUGUI resetUI;
-
     private void Start()
     {
-        ResetUIText();
-
-        // Set up handle's values if you use one
-        //InitialiseHandle();
-
         maleableObjs = GameObject.FindGameObjectsWithTag("Transformable");
+        targetStartPosition = targetObject.GetComponent<TargetObject>().startPos;
     }
 
-    private void ResetUIText()
-    {
-        //debugUI.text = "Debug: nothing to report!";
-        //moveUI.text = "Not using yellow cube";
-        //rotateUI.text = "Not using orange cube";
-        //scaleUI.text = "Not using red cube";
-        //resetUI.text = "Not using black cube";
-    }
     #region Grip-based Methods
     //// GRIP-BASED METHODS FOR TRANSFORM MANIPULATION
 
@@ -152,14 +134,7 @@ public class RemoteTransformControls : MonoBehaviour
     //    scaleUI.text = "Red scale by cube y offset: " + distance;
     //}
 
-    //// If you wish to reset the target to its starting position, rotation and size, call this method
-    public void ResetTargetObject()
-    {
-        //resetUI.text = "Reset target with black cube!";
-        targetObject.transform.position = targetStartPosition;
-        targetObject.transform.rotation = new Quaternion();
-        targetObject.transform.localScale = new Vector3(1f, 1f, 1f); //targetStartTransform.localScale;
-    }
+
 
     //// Call this method to start moving the cube with the handle
     //public void ActivateHandle()
@@ -256,6 +231,15 @@ public class RemoteTransformControls : MonoBehaviour
         targetObject.transform.localScale = newScale;
     }
 
+    //// If you wish to reset the target to its starting position, rotation and size, call this method
+    public void ResetTargetObject()
+    {
+        //resetUI.text = "Reset target with black cube!";
+        targetObject.transform.position = targetStartPosition;
+        targetObject.transform.rotation = new Quaternion();
+        targetObject.transform.localScale = new Vector3(1f, 1f, 1f); //targetStartTransform.localScale;
+    }
+
     public void CycleTargetItem()
     {
         Debug.Log("Previous target: " + maleableObjs[indx]); //Prints current value to console.
@@ -268,5 +252,7 @@ public class RemoteTransformControls : MonoBehaviour
             indx += 1;
             Debug.Log("Current target: " + maleableObjs[indx]);
         }
+
+        targetStartPosition = targetObject.GetComponent<TargetObject>().startPos;
     }
 }
